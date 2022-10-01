@@ -10,10 +10,31 @@ const addToCartBtn = document.querySelector('.addToCartBtn');
 let finalPrice = document.querySelector('.finalPrice');
 let mainImagePreview = document.querySelector('.mainImagePreview');
 let main_image_container = document.querySelector('.main_image');
+let iconMenu = document.querySelector('.iconMenu');
+let options = document.querySelector('.options');
+const arrowMobileLeft = document.querySelector('.ArrowMobileLeft');
+const arrowMobileRight = document.querySelector('.ArrowMobileRight');
+const imagesLinks = ['images/image-product-2.jpg', 'images/image-product-3.jpg', 'images/image-product-4.jpg', 'images/image-product-1.jpg'];
+const arrowsArray = [arrowMobileLeft, arrowMobileRight];
+  let position = 0;
+  arrowMobileRight.addEventListener('click', () => {
+      if (position === 3) {
+        return null;
+      }
+    mainImagePreview.src = imagesLinks[position];
+      position += 1;
+  })
+  arrowMobileLeft.addEventListener('click', () => {
+      if (position === 0) {
+        return null;
+      }
+    mainImagePreview.src = imagesLinks[position];
+      position -= 1;
+
+  })
 let startorders = 0;
 howMany.textContent = startorders;
 let state = false;
-console.log(cartImage.x, cartImage.y);
 minus.addEventListener('click', (e) => {
   if (startorders != 0) {
    startorders -=1;
@@ -58,7 +79,9 @@ thumbnails = document.querySelectorAll('.thumbnails');
 
 let body =  document.querySelector('body');
 main_image_container.addEventListener('click', (e) => {
-
+if (window.innerWidth <= 400) {
+ return null;
+}
 
 body.classList.toggle('darken_bg');
   body.innerHTML += `<div class="images_contaier biggerPreview" style="z-index: 10000">
@@ -91,6 +114,7 @@ body.classList.toggle('darken_bg');
 let deleteIcon;
 addToCartBtn.addEventListener('click', (e) => {
   let price = 125;
+  if (howMany.textContent == 0) {return null}
   let theFinalCheckout = parseInt(price * howMany.textContent);
   items.innerHTML =   `<div class="checkout">
        <div class="boughtItem">
@@ -104,6 +128,12 @@ addToCartBtn.addEventListener('click', (e) => {
        <button type="button" name="button" class="checkoutBtn" style="cursor:pointer">Checkout</button>
     </div> `
     deleteIcon = document.querySelector('.deleteIcon');
+
+    cartImage.style.animation = "animate 0.6s linear 1";
+    setTimeout(() => {
+      cartImage.style.animation = "none";
+    }, 500)
+
     deleteItems();
 })
 function deleteItems() {
@@ -111,7 +141,22 @@ function deleteItems() {
     items.innerHTML = '';
   })
 }
-
 cartImage.addEventListener('click', () => {
-  cartItems.classList.toggle('listOfItems');
+//  cartItems.classList.toggle('listOfItems');
+  if (cartItems.id === 'listOfItems') {
+    cartItems.id = '';
+  } else {
+   cartItems.id = 'listOfItems';
+  }
+})
+iconMenu.addEventListener('click', () => {
+  //options.style.transform = 'translateX(0)';
+  if (options.id === 'showOptionsMenu') {
+    options.id = '';
+    iconMenu.src = 'images/icon-menu.svg';
+  } else {
+   options.id = 'showOptionsMenu';
+   iconMenu.src = 'images/icon-close.svg';
+  }
+
 })
